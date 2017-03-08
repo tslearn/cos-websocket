@@ -1,0 +1,23 @@
+{
+  "name": "cos-websocket",
+  "version": "0.0.3",
+  "author": "tslearn@163.com",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./build/app.js",
+    "build": "npm run clean && npm run build:js && npm run cp:package",
+    "build:js": "tsc --outDir dist --declaration --declarationDir dist/types",
+    "cp:package": "cp package.json ./dist",
+	  "clean": "rm -rf ./dist"
+  },
+  "dependencies": {
+    "moment": "^2.17.1",
+    "uws": "^0.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.5",
+    "@types/uws": "0.0.0",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.1"
+  }
+}
