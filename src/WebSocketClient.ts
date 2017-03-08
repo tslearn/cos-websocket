@@ -1,7 +1,7 @@
 import {WebSocketResponse, WebSocketResponseType} from './WebSocketResponse';
 import {WebSocketRequest} from './WebSocketRequest';
 import {WebSocketMessage} from './WebSocketMessage';
-import {WebSocketClientObserver, LogLevel} from './WebSocketClientObserver';
+import {WebSocketClientObserver, WebSocketLogLevel} from './WebSocketClientObserver';
 
 let getSeed: () => number = ((): any => {
 	let seed: number = 0;
@@ -134,16 +134,16 @@ export class WebSocketClient {
 						item.onClose && item.onClose();
 						break;
 					case WebSocketClientInvokeType.LogDebug:
-						item.onLog && item.onLog(LogLevel.Debug, message);
+						item.onLog && item.onLog(WebSocketLogLevel.Debug, message);
 						break;
 					case WebSocketClientInvokeType.LogInfo:
-						item.onLog && item.onLog(LogLevel.Info, message);
+						item.onLog && item.onLog(WebSocketLogLevel.Info, message);
 						break;
 					case WebSocketClientInvokeType.LogWarn:
-						item.onLog && item.onLog(LogLevel.Warn, message);
+						item.onLog && item.onLog(WebSocketLogLevel.Warn, message);
 						break;
 					case WebSocketClientInvokeType.LogError:
-						item.onLog && item.onLog(LogLevel.Error, message);
+						item.onLog && item.onLog(WebSocketLogLevel.Error, message);
 						break;
 					default:
 						break;

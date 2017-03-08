@@ -1,4 +1,4 @@
-export const enum LogLevel {
+export const enum WebSocketLogLevel {
 	Debug,
 	Info,
 	Warn,
@@ -10,5 +10,5 @@ export class WebSocketClientObserver {
 	onServerMessage: (message: string, value: any) => void;
 	onError: () => void;
 	onClose: () => void;
-	onLog: (level: LogLevel, message: string) => void;
+	onLog: (level: WebSocketLogLevel, message: string) => void;
 }
