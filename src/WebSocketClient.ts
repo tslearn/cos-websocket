@@ -178,7 +178,7 @@ export class WebSocketClient {
 		}
 	}
 
-	public start(): boolean {
+	public start(): WebSocketClient {
 		if (this.flagStart) {
 			throw new Error('WebSocketClient has benn started!');
 		}
@@ -189,7 +189,7 @@ export class WebSocketClient {
 		this.timerHandler = setInterval((): void => this.onTimer(), 1000);
 		this.flagStart = true;
 		this.connect();
-		return true;
+		return this;
 	}
 
 	public stop(): boolean {
