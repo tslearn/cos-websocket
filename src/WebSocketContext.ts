@@ -19,15 +19,14 @@ export class WebSocketContext {
 		return this.handler;
 	}
 
-	private onMessage(message: string): void {
+	private async onMessage(message: string): Promise<any> {
 		let request: WebSocketRequest = WebSocketRequest.parse(message);
 
 		if (!request) {
 			return this.send(
-				WebSocketResponse.error()
+				WebSocketResponse.error('Error Message format!')
 					.setType(WebSocketResponseType.Server)
-					.setMessage('WebSocketFormatError')
-					.setDebug('Error Message format!').toJSON()
+					.toJSON()
 			);
 		}
 
@@ -35,19 +34,18 @@ export class WebSocketContext {
 
 		if (!method) {
 			return this.send(
-				WebSocketResponse.error()
+				WebSocketResponse.error('Method not found! ' + request.getTarget() + '#' + request.getMessage())
 					.setCallback(request.getCallback())
 					.setType(WebSocketResponseType.Client)
-					.setDebug('Method not found! Target: ' + request.getTarget() + ' Message: ' + request.getMessage())
 					.toJSON()
 			);
 		}
 
-		let ret: WebSocketResponse = (method(this, request.getArgs()) as WebSocketResponse)
-			.setCallback(request.getCallback())
-			.setType(WebSocketResponseType.Client);
+		let callArgs: Array<any> = request.getArgs();
+		callArgs.unshift(this);
+		let ret: WebSocketResponse = await method.apply(null, callArgs);
 
-		this.send(ret.toJSON());
+		this.send(ret.setCallback(request.getCallback()).setType(WebSocketResponseType.Client).toJSON());
 	}
 
 	private onClose(): void {

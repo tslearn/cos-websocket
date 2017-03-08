@@ -250,7 +250,8 @@ export class WebSocketClient {
 		let response: WebSocketResponse = WebSocketResponse.parse(cbData);
 
 		if (!response) {
-			throw new Error('WebSocketClient date parse error! Data:  \r\n' + cbData);
+			this.invokeListeners(WebSocketClientInvokeType.LogError, 'WebSocketClient date parse error! received: ' + cbData, null);
+			return;
 		}
 
 		if (this.flagDebug) {

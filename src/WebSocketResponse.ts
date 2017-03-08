@@ -15,12 +15,12 @@ export class WebSocketResponse {
 		this.flagSuccess = flagSuccess;
 	}
 
-	static success(): WebSocketResponse {
-		return new WebSocketResponse(true);
+	static success(value: any = null, message: string = null): WebSocketResponse {
+		return new WebSocketResponse(true).setValue(value).setMessage(message);
 	}
 
-	static error(): WebSocketResponse {
-		return new WebSocketResponse(false);
+	static error(message: string = null): WebSocketResponse {
+		return new WebSocketResponse(false).setMessage(message);
 	}
 
 	public isSuccess(): boolean {
@@ -81,6 +81,12 @@ export class WebSocketResponse {
 			v: this.value,
 			d: this.debug
 		};
+	}
+
+	public asyncReturn(): Promise<WebSocketResponse> {
+		return new Promise((resolve: any): void => {
+			resolve(this);
+		});
 	}
 
 	public static parse(value: string): WebSocketResponse {
