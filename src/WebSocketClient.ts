@@ -1,3 +1,4 @@
+import * as BlueBird from 'bluebird';
 import {WebSocketResponse, WebSocketResponseType} from './WebSocketResponse';
 import {WebSocketRequest} from './WebSocketRequest';
 import {WebSocketMessage} from './WebSocketMessage';
@@ -24,12 +25,12 @@ const enum WebSocketClientInvokeType {
 }
 
 class Deferred<T> {
-	promise: Promise<T>;
-	resolve: (value?: T | Promise<T>) => void;
+	promise: BlueBird<T>;
+	resolve: (value?: T | BlueBird<T>) => void;
 	reject: (error?: WebSocketMessage) => void;
 
 	constructor() {
-		this.promise = new Promise((function (resolve: any, reject: any): void {
+		this.promise = new BlueBird<T>((function (resolve: any, reject: any): void {
 			this.resolve = resolve;
 			this.reject = reject;
 		}).bind(this));
@@ -338,7 +339,7 @@ export class WebSocketClient {
 		}
 	}
 
-	send(target: string, message: string, ...args: Array<any>): Promise<WebSocketMessage> {
+	send(target: string, message: string, ...args: Array<any>): BlueBird<WebSocketMessage> {
 		let msg: SendMessage = new SendMessage(target, message, args);
 
 		if (this.isConnected()) {

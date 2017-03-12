@@ -1,3 +1,5 @@
+import * as BlueBird from 'bluebird';
+
 import * as UWS from 'uws';
 import {getMethod} from './WebSocketDecorator';
 import {WebSocketServer} from './WebSocketServer';
@@ -19,7 +21,7 @@ export class WebSocketContext {
 		return this.handler;
 	}
 
-	private async onMessage(message: string): Promise<any> {
+	private async onMessage(message: string): BlueBird<any> {
 		let request: WebSocketRequest = WebSocketRequest.parse(message);
 
 		if (!request) {

@@ -1,3 +1,5 @@
+import * as BlueBird from 'bluebird';
+
 export const enum WebSocketResponseType {
 	Server = 1,
 	Client = 2,
@@ -83,8 +85,8 @@ export class WebSocketResponse {
 		};
 	}
 
-	public asyncReturn(): Promise<WebSocketResponse> {
-		return new Promise((resolve: any): void => {
+	public asyncReturn(): BlueBird<WebSocketResponse> {
+		return new BlueBird<WebSocketResponse>((resolve: any): void => {
 			resolve(this);
 		});
 	}
